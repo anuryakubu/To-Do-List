@@ -12,34 +12,91 @@ const List3 = document.getElementById('list3')
 
 const check = document.querySelector('input[type="checkbox"]');
 
-console.log(appendChildList)
+
+fetch('http://localhost:3032').then(res => {
+return res.json()
+}).then(tasks => {
+    
+    tasks.map(taks => {
+        let output = ""
+        
+        output = `<li id="list3" class="lists">${taks.task}  <input type="checkbox" id='medicate' onchange="deleted(this)"></li>`
+        appendChildList.innerHTML += output
+
+    })
+    console.log(tasks)
+})
+
 
 addButton.addEventListener('click', add)
 
 
-
- /* check.onchange = () => {
-    if (check.checked) {
-        deleteButton.addEventListener('click', () => {
-            check.parentNode.remove()
-
-        })
-    }
-    
-}*/ 
-
 function deleted(element) {
     //alert('do something')
+
+/* fetch('http://localhost:3032').then(res => {
+return res.json()
+}).then(tasks => {
+    
+    tasks.map(taks => {
+        
+        if (element.parentNode.textContent.includes(taks.task)) {
+            console.log(taks.id)
+            return taks.id
+            
+        }
+    })
+})*/
+
+async function fetchApi () {
+
+    try {
+        const res = await fetch('http://localhost:3032')
+        const tasks = await res.json()
+
+        return tasks
+
+    } catch(e) {
+        console.log(e)
+    }
+
+}
+
+
     if (element.checked) {
        deleteButton.addEventListener('click', () => {
-        element.parentNode.remove()
+
+        fetchApi().then(tasks => {
+            
+            tasks.map(taks => {
+        
+                if (element.parentNode.textContent.includes(taks.task)) {
+                    
+                    fetch('http://localhost:3032/del', {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: taks.id
+                })
+                })
+                .then(res => {
+                    return res.json()
+                })
+                .then(task => {
+                    element.parentNode.remove()
+                    console.log(task + ' forever')
+                })
+
+                    
+                } })
+
+        })  
+
        })
        
     }
-        
-        
-        
-    
 }
 
 
@@ -50,6 +107,18 @@ function add() {
         return;
     }
 
+   fetch('http://localhost:3032/add', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            task: input.value
+        })
+    }).then(res => {
+        return res.json();
+    }).then(tasks => {
+        
     const li = document.createElement('li')
     li.className = 'lists'
     const checkbox = document.createElement('input')
@@ -58,11 +127,13 @@ function add() {
 
     appendChildList.appendChild(li)
     
-    li.innerHTML = input.value + "  " ;
+    li.innerHTML = tasks.task + "  " ;
     li.appendChild(checkbox)
     input.value = ""
     console.log(appendChildList)
-    
+    console.log(tasks.task)
+
+    })   
 }
 
 

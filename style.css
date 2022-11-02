@@ -17,32 +17,35 @@ body {
     width: 600px;
     height: 600px;
     text-align: center;
-    /* border: 2px red solid; */
+    /*border: 2px red solid;*/ 
 }
 .container {
-    display: flex;
+    /*display: flex;*/
     margin: 0 auto;
     width: 60%;
-    height: 65%;
-    justify-content: center;
-    flex-direction: column;
+    min-height: 400px;
+    /*justify-content: center;
+    flex-direction: column;*/
     border: 1px blue solid;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;;
     background-color: rgb(169, 188, 216);
+    /*overflow: scroll;*/
 }
 
 .inner {
     
     margin: 0 auto;
-    width: 60%;
+    width: 80%;
+    height: 280px;
     text-align: center;
-    /* border: 2px red solid; */
+    /* border: 2px red solid;*/
     background-color: rgb(169, 188, 216);
+    overflow-y: scroll;
 }
 
 .header {
-
+    padding-top: 10px;
     color: blue;
     font-size: large;
     font-family: Arial, Helvetica, sans-serif;
@@ -61,6 +64,7 @@ width: 200px;
 .orderedList {
 padding: 10px;
 margin: 10px;
+
 }
 
 .lists {
